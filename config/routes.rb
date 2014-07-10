@@ -1,4 +1,11 @@
 PsBackend::Application.routes.draw do
+  resources :images, only: [:create,:new,:show,:upload_api]
+  resources :episodes, only: [:create,:new,:show]
+
+
+
+  get 'upload_api', to: 'images#upload_api'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
