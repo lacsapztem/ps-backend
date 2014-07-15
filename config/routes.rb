@@ -1,10 +1,11 @@
 PsBackend::Application.routes.draw do
-  resources :images, only: [:create,:new,:show,:upload_api]
-  resources :episodes, only: [:create,:new,:show]
+  resources :images, only: [:create,:new,:show,:upload_api,:destroy]
+  resources :episodes, only: [:create,:new,:show,:index]
 
 
+  #match '/signin',  to: 'sessions#new',         via: 'get'
 
-  get 'upload_api', to: 'images#upload_api'
+  match '/upload_api', to: 'images#upload_api', via:'post'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
