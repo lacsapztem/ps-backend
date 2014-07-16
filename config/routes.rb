@@ -1,11 +1,14 @@
 PsBackend::Application.routes.draw do
   resources :images, only: [:create,:new,:show,:upload_api,:destroy]
-  resources :episodes, only: [:create,:new,:show,:index]
+  resources :episodes, only: [:create,:new,:show,:index,:images,:default,:maj_chatroom]
 
 
   #match '/signin',  to: 'sessions#new',         via: 'get'
-
+  root 'episodes#index'
   match '/upload_api', to: 'images#upload_api', via:'post'
+  match '/episodes/default', to: 'episodes#default', via:'get'
+  match '/episodes/:id/images', to: 'episodes#images', via:'get'
+  match '/episodes/:id/chatroom', to: 'episodes#maj_chatroom', via:'patch'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
