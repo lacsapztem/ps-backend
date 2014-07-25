@@ -1,12 +1,12 @@
 PsBackend::Application.routes.draw do
   resources :images, only: [:create,:new,:show,:upload_api,:destroy]
-  resources :episodes, only: [:create,:new,:show,:index,:images,:default,:maj_chatroom]
+  resources :episodes, only: [:create,:new,:index,:images,:defaultep,:maj_chatroom,:show]
 
 
   #match '/signin',  to: 'sessions#new',         via: 'get'
   root 'episodes#index'
   match '/upload_api', to: 'images#upload_api', via:'post'
-  match '/episodes/default', to: 'episodes#default', via:'get'
+  match '/episodes_default', to: 'episodes#defaultep', via:'get'
   match '/episodes/:id/images', to: 'episodes#images', via:'get'
   match '/episodes/:id/chatroom', to: 'episodes#maj_chatroom', via:'patch'
 
