@@ -1,0 +1,26 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+.thumbnail img {
+	height:100px;
+}
+.thumbnail  {
+	height:200px;
+}
+.suppr_container a{
+	float: right;
+	top: 0px;
+	display: none;
+}
+.suppr_container:hover a{
+	display: block;
+}
+.suppr_container{
+	left: 0px;
+	top: 0px;
+	position: absolute;	
+	height: 100%;
+	width: 100%;
+	padding-left: 15px;
+	padding-right: 15px;
+}

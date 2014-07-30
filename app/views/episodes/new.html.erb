@@ -1,0 +1,13 @@
+<%= form_for(@episode) do |f| %>
+	<p>
+	<%= f.label "Titre" %>
+	<%= f.text_field :title %>
+	</p>
+	<p>
+	<%= f.label "Numero" %>
+	<%= f.text_field :number %>
+	</p>
+	<p>
+	<%= f.submit "Créer" %>
+	</p>
+<% end %>

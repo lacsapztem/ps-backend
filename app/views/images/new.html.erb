@@ -1,0 +1,17 @@
+<%= form_for(@image, :html=>{:multipart=>true}) do |f| %>
+	<p>
+	<%= f.label "Auteur" %>
+	<%= f.text_field :author %>
+	</p>
+	<p>
+	<%= f.label "Message" %>
+	<%= f.text_field :msg %>
+	</p>
+	<p>
+	<%= f.label :image %>
+	<%= f.file_field :image %>
+	</p>
+	<p>
+	<%= f.submit "Créer" %>
+	</p>
+<% end %>
