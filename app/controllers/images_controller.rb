@@ -1,11 +1,5 @@
 class ImagesController < ApplicationController
 	def show
-  		require 'base64'
-		@image_data = Image.find params[:id]
-		@image = Base64.decode64(@image_data.image)
-		send_data @image, 	type: @image_data.content_type,
-							filename: @image_data.name, 
-							disposition: 'inline'
 	end
 	def new
 		@image = Image.new()
@@ -17,25 +11,39 @@ class ImagesController < ApplicationController
 		redirect_to @episode
 	end
 	def create
-  		require 'base64'
-  		img64 = Base64.encode64(params['image']['image'].read())
-		@image = Image.new	name: params['name'],
-							msg: params['msg'],
-							author: params['author'],
-							image: img64,
-							content_type: params['image']['image'].content_type
-		@image.save()
 	end
 	def upload_api
-		@image = Image.new	name: params[:name],
+		require 'digest/md5'
+		Rails.logger = Logger.new(STDOUT)	
+		wp = Rubypress::Client.new(	
+			host: ENV["WP_HOST"],
+			username: ENV["WP_USER"], 
+			password: ENV["WP_PW"]
+			)
+		
+		@episode = Episode.find params[:id_episode]
+		parameters = {
+			name: @episode[:number] + '_' + params[:name],
+			type: params[:content_type],
+			bits: XMLRPC::Base64.new(Base64.decode64(params[:image]))
+		}
+		signature = Digest::MD5.hexdigest(params[:image])
+		@image = Image.find_by sign: signature
+		@image ||= Image.find_by name: params[:name]
+		if !@image
+			retour = wp.uploadFile data: parameters
+			@image = Image.new	name: params[:name],
 							msg: params[:msg],
+							url: retour["url"],
 							author: params[:author],
 							user: params[:user],
 							avatar: params[:avatar],
-							image: params[:image],
+							sign: signature,
 							content_type: params[:content_type],
 							episode_id: params[:id_episode]
+		end
 		@image.save()
+
 		respond_to do |format|
 			format.json { render json: @image}
 		end

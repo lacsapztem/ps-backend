@@ -1,13 +1,15 @@
 PsBackend::Application.routes.draw do
+  devise_for :users
   resources :images, only: [:create,:new,:show,:upload_api,:destroy]
-  resources :episodes, only: [:create,:new,:index,:images,:defaultep,:maj_chatroom,:show]
-
+  resources :episodes, only: [:create,:new,:index,:images,
+            :defaultep,:maj_chatroom,:show,:diaporama]
 
   #match '/signin',  to: 'sessions#new',         via: 'get'
   root 'episodes#index'
   match '/upload_api', to: 'images#upload_api', via:'post'
   match '/episodes_default', to: 'episodes#defaultep', via:'get'
   match '/episodes/:id/images', to: 'episodes#images', via:'get'
+  match '/episodes/:id/diaporama', to: 'episodes#diaporama', via:'get'
   match '/episodes/:id/chatroom', to: 'episodes#maj_chatroom', via:'patch'
 
   # The priority is based upon order of creation: first created -> highest priority.

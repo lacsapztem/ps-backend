@@ -1,0 +1,17 @@
+ 
+    <script>
+		jQuery(function(){
+			
+			jQuery('#diaporama').camera({
+				thumbnails: true
+			});
+		});
+	</script>
+
+ <ul id="diaporama">
+	<% @images.each do |i| %>
+		<li> 
+			<%= image_tag("/images/#{i.id}", alt: "Image" ) %>
+		</li>
+	<% end -%>
+</ul>

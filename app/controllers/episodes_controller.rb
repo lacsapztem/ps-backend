@@ -17,6 +17,10 @@ class EpisodesController < ApplicationController
 			format.json { render json: @images}
 		end
 	end
+	def diaporama
+		@episode = Episode.find(params[:id])
+		@images = @episode.images
+	end
 	def new
 		@episode = Episode.new()
 	end

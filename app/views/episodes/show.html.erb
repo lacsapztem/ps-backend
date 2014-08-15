@@ -12,7 +12,7 @@
 			<% @images.each do |i| %>
 				<li class="col-sm-4 col-md-3"> 
 					<div class="thumbnail">
-						<%= image_tag("/images/#{i.id}", alt: "Image" ) %>
+						<%= image_tag("#{i.url}", alt: "Image" ) %>
 						<div class="caption">
 							<div class="suppr_container">
 								<%= link_to  i, method: :delete , class: 'suppr_im' do %>
