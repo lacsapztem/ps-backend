@@ -14,12 +14,14 @@ class ImagesController < ApplicationController
 	end
 	def upload_api
 		require 'digest/md5'
-		Rails.logger = Logger.new(STDOUT)	
-		wp = Rubypress::Client.new(	
+		Rails.logger = Logger.new(STDOUT)
+		auth= {
 			host: ENV["WP_HOST"],
 			username: ENV["WP_USER"], 
 			password: ENV["WP_PW"]
-			)
+		}
+
+		wp = Rubypress::Client.new	auth
 
 		@episode = Episode.find params[:id_episode]
 		parameters = {
@@ -31,6 +33,7 @@ class ImagesController < ApplicationController
 		@image = Image.find_by sign: signature
 		@image ||= Image.find_by name: params[:name]
 		if !@image
+
 			retour = wp.uploadFile data: parameters
 			logger.info retour
 			@image = Image.new	name: params[:name],
