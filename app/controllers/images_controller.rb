@@ -20,7 +20,7 @@ class ImagesController < ApplicationController
 			username: ENV["WP_USER"], 
 			password: ENV["WP_PW"]
 			)
-		
+
 		@episode = Episode.find params[:id_episode]
 		parameters = {
 			name: @episode[:number] + '_' + params[:name],
@@ -32,6 +32,7 @@ class ImagesController < ApplicationController
 		@image ||= Image.find_by name: params[:name]
 		if !@image
 			retour = wp.uploadFile data: parameters
+			logger.info retour
 			@image = Image.new	name: params[:name],
 							msg: params[:msg],
 							url: retour["url"],
