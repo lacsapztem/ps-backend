@@ -30,10 +30,9 @@ class ImagesController < ApplicationController
 			bits: XMLRPC::Base64.new(Base64.decode64(params[:image]))
 		}
 		signature = Digest::MD5.hexdigest(params[:image])
-		@image = Image.find_by sign: signature
-		@image ||= Image.find_by name: params[:name]
+		@image = Image.find_by sign: signature, episode_id: params[:id_episode]
+		# @image ||= Image.find_by name: params[:name]
 		if !@image
-
 			retour = wp.uploadFile data: parameters
 			logger.info retour
 			@image = Image.new	name: params[:name],
