@@ -43,12 +43,33 @@ class ImagesController < ApplicationController
 							avatar: params[:avatar],
 							sign: signature,
 							content_type: params[:content_type],
-							episode_id: params[:id_episode]
+							episode_id: params[:id_episode],
+							media_type: 'img'
 		end
 		@image.save()
 
 		respond_to do |format|
 			format.json { render json: @image}
+		end
+	end
+	def add_video
+		@episode = Episode.find params[:id_episode]
+		@video = Image.find_by url: params['url'], episode_id: params[:id_episode]
+		if !@video
+			@video = Image.new	name: params[:name],
+							msg: params[:msg],
+							url: params[:url],
+							author: params[:author],
+							user: params[:user],
+							avatar: params[:avatar],
+							sign: params[:url],
+							content_type: '',
+							episode_id: params[:id_episode],
+							media_type: 'video'
+		end
+		@video.save()
+		respond_to do |format|
+			format.json { render json: @video}
 		end
 	end
 end

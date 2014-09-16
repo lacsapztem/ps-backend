@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140815054008) do
+ActiveRecord::Schema.define(version: 20140915185930) do
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140815054008) do
     t.string   "avatar"
     t.string   "url"
     t.string   "sign"
+    t.string   "media_type",   default: "img"
   end
 
   create_table "users", force: true do |t|
