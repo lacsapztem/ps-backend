@@ -36,7 +36,7 @@ class ImagesController < ApplicationController
 			begin
 				retour = wp.uploadFile data: parameters
 			end
-			logger.info retour
+			logger.info "********************************************************************"+retour+"---------------------------------------------------------------------"
 			@image = Image.new	name: params[:name],
 							msg: params[:msg],
 							url: retour["url"],
