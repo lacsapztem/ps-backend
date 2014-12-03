@@ -33,10 +33,13 @@ class ImagesController < ApplicationController
 		@image = Image.find_by sign: signature, episode_id: params[:id_episode]
 		# @image ||= Image.find_by name: params[:name]
 		if !@image
+			logger.info "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 			begin
 				retour = wp.uploadFile data: parameters
 			end
-			logger.info "********************************************************************"+retour+"---------------------------------------------------------------------"
+			logger.info "********************************************************************"
+			logger.info retour
+			logger.info "---------------------------------------------------------------------"
 			@image = Image.new	name: params[:name],
 							msg: params[:msg],
 							url: retour["url"],
