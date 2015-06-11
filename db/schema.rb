@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140915185930) do
+ActiveRecord::Schema.define(version: 20150522201433) do
 
   create_table "episodes", force: true do |t|
     t.string   "title"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20140915185930) do
     t.boolean  "default"
     t.text     "chatroom"
     t.integer  "postid"
+    t.string   "queue"
   end
 
   create_table "images", force: true do |t|
@@ -35,7 +36,9 @@ ActiveRecord::Schema.define(version: 20140915185930) do
     t.string   "avatar"
     t.string   "url"
     t.string   "sign"
-    t.string   "media_type",   default: "img"
+    t.string   "media_type",    default: "img"
+    t.integer  "queueposition"
+    t.boolean  "queued"
   end
 
   create_table "users", force: true do |t|

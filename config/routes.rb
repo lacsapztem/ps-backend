@@ -1,8 +1,8 @@
-PsBackend::Application.routes.draw do
+  PsBackend::Application.routes.draw do
   devise_for :users
-  resources :images, only: [:create,:new,:show,:upload_api,:destroy,:add_video]
+  resources :images, only: [:create,:new,:show,:upload_api,:destroy,:add_video,:upload_queued]
   resources :episodes, only: [:create,:new,:index,:images,
-            :defaultep,:maj_chatroom,:show,:diaporama]
+            :defaultep,:maj_chatroom,:show,:diaporama,:set_queue_order,:get_queue_order,:post_queue]
 
   #match '/signin',  to: 'sessions#new',         via: 'get'
   root 'episodes#index'
@@ -10,8 +10,12 @@ PsBackend::Application.routes.draw do
   match '/add_video', to: 'images#add_video', via:'post'
   match '/episodes_default', to: 'episodes#defaultep', via:'get'
   match '/episodes/:id/images', to: 'episodes#images', via:'get'
+  match '/episodes/:id/images', to: 'images#upload_queued', via:'post'
   match '/episodes/:id/diaporama', to: 'episodes#diaporama', via:'get'
   match '/episodes/:id/chatroom', to: 'episodes#maj_chatroom', via:'patch'
+  match '/episodes/:id/queue', to: 'episodes#set_queue_order', via:'post'
+  match '/episodes/:id/queue', to: 'episodes#get_queue_order', via:'get'
+  match '/episodes/:id/queue/post/:sign', to: 'episodes#post_queue', via:'post'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

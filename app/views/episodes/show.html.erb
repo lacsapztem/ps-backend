@@ -6,25 +6,93 @@
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col-sm-12" >
-		<ul class="list-unstyled">
-			<% @images.each do |i| %>
-				<li class="col-sm-4 col-md-3"> 
-					<div class="thumbnail">
-						<%= image_tag("#{i.url}", alt: "Image" ) %>
-						<div class="caption">
-							<div class="suppr_container">
-								<%= link_to  i, method: :delete , class: 'suppr_im' do %>
-		                        	<span  class='glyphicon glyphicon-remove'></span>
-		                        <% end %>
-	                        </div>
-							<small><%= "#{i.name}" %></small>
-							<h5><%= "#{i.author} :  #{i.msg}" %></h5>
-						</div>
-					</div>
-				</li>
-			<% end -%>
-		</ul>
+<% flash.each do |message_type, message| %>
+	<div class="alert alert-<%= message_type %>"><%= message %></div>
+<% end %>
+<div class="row panel  panel-default">
+	<div class="panel-heading clearfix">
+		<h3 class="panel-title  navbar-left">Fil d'attente
+		</h3>
+		<a href="#" class="btn btn-primary btn-sm navbar-right" data-toggle="modal" data-target="#UploadModal">Ajouter</a>
+
 	</div>
+	<div class="panel-body">
+		<div class="col-sm-12" >
+			<ul class="list-unstyled " id="sortable">
+				<% @images_queued.each do |i| %>
+					<li class="col-sm-4 col-md-3 ui-state-default" id="<%= "id_#{i.sign}" %>"><%= "#{i.author}" %>
+						<div class="thumbnail">
+							<%= image_tag("#{i.url}", alt: "Image" ) %>
+							<div class="caption">
+								<div class="suppr_container">
+									<%= link_to  i, method: :delete , class: 'suppr_im' do %>
+			                        	<span  class='glyphicon glyphicon-remove'></span>
+			                        <% end %>
+									<%= link_to  "/episodes/#{i.episode_id}/queue/post/#{i.sign}.html", method: :post , class: 'post_im' do %>
+			                        	<span  class='glyphicon glyphicon-ok'></span>
+			                        <% end %>
+		            </div>
+								<small><%= "#{i.name}" %></small>
+								<h5><%= "#{i.author} :  #{i.msg}" %></h5>
+							</div>
+						</div>
+					</li>
+				<% end -%>
+			</ul>
+		</div>
+	</div>
+</div>
+<div class="row panel  panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Images affichées</h3>
+	</div>
+	<div class="panel-body">
+		<div class="col-sm-12" >
+			<ul class="list-unstyled">
+				<% @images.each do |i| %>
+					<li class="col-sm-4 col-md-3"> 
+						<div class="thumbnail">
+							<%= image_tag("#{i.url}", alt: "Image" ) %>
+							<div class="caption">
+								<div class="suppr_container">
+									<%= link_to  i, method: :delete , class: 'suppr_im' do %>
+			                        	<span  class='glyphicon glyphicon-remove'></span>
+			                        <% end %>
+		                        </div>
+								<small><%= "#{i.name}" %></small>
+								<h5><%= "#{i.author} :  #{i.msg}" %></h5>
+							</div>
+						</div>
+					</li>
+				<% end -%>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="UploadModal" tabindex="-1" role="dialog" aria-labelledby="UploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Ajout d'une image</h4>
+      </div>
+			<%= form_for @image_new, :url => {:action => "images"} do |f| %>
+	      <div class="modal-body">
+					<p>
+					<%= f.label "Message" , class: "control-label" %>
+					<%= f.text_field :msg , class: "form-control" %>
+					</p>
+					<p>
+					<%= f.label :image , class: "control-label" %>
+					<%= f.file_field :image %>
+					</p>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+					<%= f.submit "Upload" , class: "btn btn-primary"%>
+	      </div>
+			<% end %>
+    </div>
+  </div>
 </div>

@@ -6,6 +6,10 @@
 }
 .thumbnail  {
 	height:200px;
+	overflow: hidden;
+}
+.post_im {
+	padding-right: 5px;
 }
 .suppr_container a{
 	float: right;
@@ -23,4 +27,8 @@
 	width: 100%;
 	padding-left: 15px;
 	padding-right: 15px;
+}
+.panel-title{
+	padding-top: 7.5px;
+	padding-bottom : 7.5px;
 }
