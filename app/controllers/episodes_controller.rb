@@ -1,6 +1,6 @@
 class EpisodesController < ApplicationController
 	def index
-		@episodes = Episode.all
+		@episodes = Episode.all.order(number: :desc)
 	end
 	def show
 		@episode = Episode.find(params[:id])
