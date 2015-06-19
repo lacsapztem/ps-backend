@@ -83,48 +83,53 @@ class ImagesController < ApplicationController
 	end
 	def upload_queued
 		require 'digest/md5'
+
 		Rails.logger = Logger.new(STDOUT)
 		auth= {
 			host: ENV["WP_HOST"],
 			username: ENV["WP_USER"], 
 			password: ENV["WP_PW"]
 		}
-		content_type=params[:image][:image].content_type
+		content_type=params[:file].content_type
 		@episode = Episode.find params[:id]
 		if content_type!='image/jpeg' && content_type!='image/gif' && content_type!='image/png'
 			logger.info "type de fichier invalide"+content_type
-			flash[:danger] = "Mauvais format d'image"
+			render json: {error: "Mauvais format d'image"}, status: 415
 		else
 			logger.info 'type de fichier ok'+content_type
 			#logger.info params[:image].image.original_filename
 			wp = Rubypress::Client.new	auth
 
 			parameters = {
-				name: @episode[:number] + '_' + params[:image][:image].original_filename,
-				type: params[:image][:image].content_type,
-				bits:XMLRPC::Base64.new(params[:image][:image].tempfile.read )
+				name: @episode[:number] + '_' + params[:file].original_filename,
+				type: params[:file].content_type,
+				bits:XMLRPC::Base64.new(params[:file].tempfile.read )
 			}	
 			signature = Digest::MD5.hexdigest(parameters[:bits].decoded)
 			@image = Image.find_by sign: signature, episode_id: params[:id]
 			# @image ||= Image.find_by name: params[:name]
 			if !@image
+				logger.info "Upload  vers WP"
 				retour = wp.uploadFile data: parameters
 				logger.info "Retour de WP"
 				logger.info retour
 				@image = Image.new	name: parameters[:name],
-								msg: params[:image][:msg],
+								msg: params[:msg] || '',
 								url: retour["url"],
 								author: 'Podcast Science',
 								user: 'Podcast Science',
 								avatar: 'https://gravatar.com/avatar/07423298245b638efa9f24edfd0e9f6a?s=40',
 								sign: signature,
-								content_type:  params[:image][:image].content_type,
+								content_type:  params[:file].content_type,
 								episode_id: params[:id],
 								media_type: 'img',
-								queueposition: @episode.images_queued.maximum('queueposition'),
+								queueposition: @episode.images_queued.maximum('queueposition')+1,
 								queued: true
+				logger.info @image
+				render json: {error: 'Upload ok'}
 			else
 				logger.info "Image deja existante"
+				render json: {error: 'Image deja existante'}, status: 415
 
 			end
 
@@ -138,7 +143,6 @@ class ImagesController < ApplicationController
 		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
 		  http.request(req)
 		end
-		redirect_to @episode
 		
 	end
 end

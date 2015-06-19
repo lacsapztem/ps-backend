@@ -20,3 +20,4 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require camera.min
+//= require dropzone

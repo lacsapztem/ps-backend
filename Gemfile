@@ -22,6 +22,7 @@ gem 'rubypress'
 gem 'devise'
 gem 'cancancan', '~> 1.9'
 gem 'jquery-ui-rails'
+gem 'dropzonejs-rails'
 
 
 group :production do

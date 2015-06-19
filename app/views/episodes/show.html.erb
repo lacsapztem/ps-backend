@@ -77,20 +77,13 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Ajout d'une image</h4>
       </div>
-			<%= form_for @image_new, :url => {:action => "images"} do |f| %>
-	      <div class="modal-body">
+			  <div class="modal-body">
 					<p>
-					<%= f.label "Message" , class: "control-label" %>
-					<%= f.text_field :msg , class: "form-control" %>
-					</p>
-					<p>
-					<%= f.label :image , class: "control-label" %>
-					<%= f.file_field :image %>
+						<%= form_for @image_new,:html => {:class => 'dropzone', :id=>"file_upload_zone"}, :url => {:action => "images"} do |f| %>
 					</p>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-					<%= f.submit "Upload" , class: "btn btn-primary"%>
 	      </div>
 			<% end %>
     </div>

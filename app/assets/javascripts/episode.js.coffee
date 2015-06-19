@@ -9,4 +9,19 @@ $( ()->
 			$.post $(location).attr('pathname')+'/queue', {order: sortedIDs},	success: (data)->
 					alert data
 	$( "#sortable" ).disableSelection()
+
+	Dropzone.options.FileUploadZone = {
+	  paramName: "image[image]",
+	  maxFilesize: 2,
+	  acceptedFiles: 'image/jpeg,image/gif,image/png',
+	  dictDefaultMessage: 'Click or Drop files here to upload',
+	  accept: (file, done) ->
+	  	done()
+	}
+
+
+
+
+	$('#UploadModal').on 'hide.bs.modal',  (e) ->
+		location.reload true
 )
