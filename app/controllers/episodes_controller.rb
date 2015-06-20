@@ -44,7 +44,8 @@ class EpisodesController < ApplicationController
 	def defaultep
 		#@episode = Episode.find_by number: "pszzz"
 		@episode = Episode.find_by default: true
-		@episode.hashtag ||= @episode.number
+		if @episode != '{}'
+			@episode.hashtag ||= @episode.number 
 		respond_to do |format|
 			format.json { render json: @episode}
 			format.html {redirect_to @episode}
