@@ -33,6 +33,7 @@ class EpisodesController < ApplicationController
 		@episode = Episode.find_by number: params['number']
 		@episode ||= Episode.new(params.permit(:number,:titlex))
 		@episode.title = params['title']
+		@episode.hashtag = params['hashtag']
 		@episode.default = true
 		@episode.save()
 		respond_to do |format|
@@ -42,7 +43,8 @@ class EpisodesController < ApplicationController
 	end
 	def defaultep
 		#@episode = Episode.find_by number: "pszzz"
-		@episode = Episode.find_by default: true 
+		@episode = Episode.find_by default: true
+		@episode[:hashtag] ||= @episode[:number]
 		respond_to do |format|
 			format.json { render json: @episode}
 			format.html {redirect_to @episode}
