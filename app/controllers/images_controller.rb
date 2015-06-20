@@ -123,7 +123,7 @@ class ImagesController < ApplicationController
 								content_type:  params[:file].content_type,
 								episode_id: params[:id],
 								media_type: 'img',
-								queueposition: @episode.images_queued.maximum('queueposition')+1,
+								queueposition: ( @episode.images_queued.maximum('queueposition') || 0 )+1,
 								queued: true
 				logger.info @image
 				render json: {error: 'Upload ok'}
