@@ -44,7 +44,7 @@ class EpisodesController < ApplicationController
 	def defaultep
 		#@episode = Episode.find_by number: "pszzz"
 		@episode = Episode.find_by default: true
-		if @episode != '{}'
+		if !(@episode.nil!)
 			@episode.hashtag ||= @episode.number 
 		end
 		respond_to do |format|
