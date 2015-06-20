@@ -12,9 +12,12 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui
+//= require jquery-ui/sortable
 //= require turbolinks
 //= require_tree .
 
 //= require jquery
 //= require bootstrap-sprockets
 //= require camera.min
+//= require dropzone
