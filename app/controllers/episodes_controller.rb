@@ -46,6 +46,7 @@ class EpisodesController < ApplicationController
 		@episode = Episode.find_by default: true
 		if @episode != '{}'
 			@episode.hashtag ||= @episode.number 
+		end
 		respond_to do |format|
 			format.json { render json: @episode}
 			format.html {redirect_to @episode}
