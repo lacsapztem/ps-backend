@@ -72,8 +72,13 @@ class EpisodesController < ApplicationController
 		uri=URI("#{ENV['PSLIVE_URL']}update_queue")
 		req = Net::HTTP::Post.new(uri)
 		req.set_form_data('queue'=> @images.to_json)
-		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-		  http.request(req)
+		req.set_form_data('episode_id'=> params[:id])
+		begin
+			res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			  http.request(req)
+			end
+		rescue
+			logger.info "La chatroom est offline"
 		end
 		render json: {}
 	end
@@ -97,8 +102,12 @@ class EpisodesController < ApplicationController
 		callback_uri=URI("#{ENV['PSLIVE_URL']}post_image")
 		req = Net::HTTP::Post.new(callback_uri)
 		req.set_form_data('image'=> @image.to_json)
-		res = Net::HTTP.start(callback_uri.hostname, callback_uri.port) do |http|
-		  http.request(req)
+		begin
+			res = Net::HTTP.start(callback_uri.hostname, callback_uri.port) do |http|
+			  http.request(req)
+			end
+		rescue
+			logger.info "La chatroom est offline"
 		end
 
 	end

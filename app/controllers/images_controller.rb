@@ -7,7 +7,21 @@ class ImagesController < ApplicationController
 	def destroy
 		@image = Image.find params[:id]
 		@episode = Episode.find @image['episode_id']
+
+		logger.info "suppression d'une image"
+		uri=URI("#{ENV['PSLIVE_URL']}suppr_image")
+		req = Net::HTTP::Post.new(uri)
+		req.set_form_data('image'=> @image.to_json)
+		begin
+			res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			  http.request(req)
+			end
+		rescue
+			logger.info "La chatroom est offline"
+		end
+		
 		@image.destroy
+
 		redirect_to @episode
 	end
 	def post_queue
@@ -145,8 +159,12 @@ class ImagesController < ApplicationController
 		uri=URI("#{ENV['PSLIVE_URL']}update_queue")
 		req = Net::HTTP::Post.new(uri)
 		req.set_form_data('queue'=> @images.to_json)
-		res = Net::HTTP.start(uri.hostname, uri.port) do |http|
-		  http.request(req)
+		begin
+			res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+			  http.request(req)
+			end
+		rescue
+			logger.info "La chatroom est offline"
 		end
 		
 	end
