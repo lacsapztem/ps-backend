@@ -107,7 +107,8 @@ class ImagesController < ApplicationController
 		auth= {
 			host: ENV["WP_HOST"],
 			username: ENV["WP_USER"], 
-			password: ENV["WP_PW"]
+			password: ENV["WP_PW"],
+			use_ssl: true
 		}
 		content_type=params[:file].content_type
 		@episode = Episode.find params[:id]
@@ -129,6 +130,8 @@ class ImagesController < ApplicationController
 			# @image ||= Image.find_by name: params[:name]
 			if !@image
 				logger.info "Upload  vers WP"
+				logger.info auth
+				logger.info "Upload  vers WP mais en vrai"
 				retour = wp.uploadFile data: parameters
 				logger.info "Retour de WP"
 				logger.info retour
