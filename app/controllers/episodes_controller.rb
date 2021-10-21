@@ -56,6 +56,7 @@ class EpisodesController < ApplicationController
 		@episode = Episode.find(params[:id])
 		@episode.chatroom = params[:chatroom]
 		@episode.save
+		render 'new'
 	end
 	def set_queue_order
 		order=0
