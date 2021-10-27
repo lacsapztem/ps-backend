@@ -59,7 +59,7 @@ class EpisodesController < ApplicationController
 	end
 	def set_queue_order
 		order=0
-		tab_order=params[:order]
+		tab_order=params[:order]	
 		tab_order.each do |im_id|
 			im_sign=im_id.split('_')[1]
 			@image = Image.find_by sign: im_sign, episode_id: params[:id]

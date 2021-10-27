@@ -35,6 +35,7 @@ class ImagesController < ApplicationController
 	end
 	def upload_api
 		require 'digest/md5'
+		logger.info "+++++++++++++++++++++++++++++%%%%%%%%%%%+++++++++++++++++++++++++++++++++++++++"
 		Rails.logger = Logger.new(STDOUT)
 		auth= {
 			host: ENV["WP_HOST"],
