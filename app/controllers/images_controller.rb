@@ -54,9 +54,11 @@ class ImagesController < ApplicationController
 		}
 		signature = Digest::MD5.hexdigest(params[:image])
 		@image = Image.find_by sign: signature, episode_id: params[:id_episode]
+		
 		# @image ||= Image.find_by name: params[:name]
 		if !@image
 			logger.info "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+			
 			begin
 				retour = wp.uploadFile data: parameters
 			end
@@ -74,8 +76,19 @@ class ImagesController < ApplicationController
 							episode_id: params[:id_episode],
 							media_type: 'img',
 							queued: false
+			logger.info "-----------------+++++++++++++++++++++++-----------------------"
+			logger.info  name: params[:name]
+			logger.info  params[:msg]
+			logger.info  retour["url"]
+			logger.info  params[:author]
+			logger.info  params[:user]
+			logger.info  params[:avatar]
+			logger.info  signature
+			logger.info  params[:content_type]
+			logger.info  params[:id_episode]
 		end
 		@image.save()
+		logger.info "-----------------+++++++++++++++++++++++-----------------------"
 
 		respond_to do |format|
 			format.json { render json: @image}
